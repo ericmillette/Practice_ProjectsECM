@@ -4,12 +4,14 @@
 # create player and computer (X and O)
 # moderate turns, wins, and ties
 
-#GLOBAL VARIABLES --------------
-board = "-" * 9
+# GLOBAL VARIABLES --------------
+board = ["-", "-", "-",
+         "-", "-", "-",
+         "-", "-", "-", ]
 game_over = False
 winner = None
 current_player = "X"
-# ------------------------------
+# -------------------------------
 
 def display_board(): # x is arbitrary counter
     x = 0
@@ -17,21 +19,24 @@ def display_board(): # x is arbitrary counter
         print(board[x] + " | " + board[x + 1] + " | " + board[x + 2])
         x += 3
 
-def conduct_turn():
-    global current_player
-    print("It is " + current_player + "'s turn.") # asks for input
-    position = input("Choose a position between 1 and 9: ")
+def conduct_turn(current_player):
+    print("It is " + current_player + "'s turn.")
+    position = input("Choose a position between 1 and 9: ") # asks for input
 
     if position not in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]: # rejects input if it's not 1-9
         position = input("Error. Choose a position between 1 and 9: ")
 
     position = int(position) - 1 # designates position selected to proper index
-    board[position] == current_player
+    board[position] = current_player
 
+    display_board()
+
+def flip_player():
+    global current_player
     if current_player == "X": # flip player from X to O, or vice versa
-        current_player == "O"
+        current_player = "O"
     else:
-        current_player == "X"
+        current_player = "X"
 
 def check_win(): # checks if all "-" have been fulfilled
         check_rows()
@@ -87,6 +92,7 @@ def play_tictactoe():
         if "-" not in board:
             check_win()
         else:
-            conduct_turn()
+            conduct_turn(current_player)
+            flip_player()
 
 play_tictactoe()
